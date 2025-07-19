@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock UpSkill - Get Premium Courses for Less</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #32CD32 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #87CEEB, #32CD32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #87CEEB, #32CD32);
+        }
+
+        .course-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .course-description {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .registration-description {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.6;
+            margin-top: 8px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .original-price {
+            font-size: 1.2em;
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .discounted-price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #32CD32;
+        }
+
+        .discount-badge {
+            background: linear-gradient(45deg, #32CD32, #87CEEB);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .enroll-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #87CEEB, #32CD32);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(135, 206, 235, 0.3);
+        }
+
+        .enroll-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(135, 206, 235, 0.4);
+        }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .auth-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #87CEEB;
+        }
+
+        .password-warning {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #87CEEB, #32CD32);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            color: #666;
+        }
+
+        .auth-switch a {
+            color: #87CEEB;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .payment-section {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .payment-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .payment-row.total {
+            font-weight: 600;
+            font-size: 1.2em;
+            color: #32CD32;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 10px;
+        }
+
+        .payment-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #32CD32, #87CEEB);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ad-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .ad-timer {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #32CD32;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .ad-content {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .skip-btn {
+            background: #87CEEB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .skip-btn.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .coupon-section {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 3em;
+            color: #32CD32;
+            margin-bottom: 20px;
+        }
+
+        .coupon-code {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px dashed #87CEEB;
+        }
+
+        .coupon-text {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #87CEEB, #32CD32);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .redirect-btn {
+            background: linear-gradient(45deg, #32CD32, #87CEEB);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            .course-card {
+                padding: 20px;
+            }
+
+            .course-title {
+                font-size: 1.5em;
+            }
+
+            .auth-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Unlock UpSkill</div>
+            <div class="tagline">Premium courses at student-friendly prices</div>
+        </div>
+
+        <div class="course-card" id="courseSection">
+            <h2 class="course-title" id="courseTitle">Complete Web Development Bootcamp</h2>
+            <p class="course-description" id="courseDescription">
+                Master HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build 10+ real-world projects and get
+                job-ready with hands-on experience. Perfect for beginners and intermediate developers.
+            </p>
+
+            <div class="price-section">
+                <div>
+                    <div class="original-price">₹2,999</div>
+                    <div class="discounted-price">₹99</div>
+                </div>
+                <div class="discount-badge">97% OFF</div>
+            </div>
+
+            <p class="registration-description">
+                To enroll in course register yourself here!
+            </p>
+            <button class="enroll-btn" onclick="showAuthModal()">
+                🚀 Enroll Now - Get Instant Access
+            </button>
+
+        </div>
+
+        <div class="payment-section hidden" id="paymentSection">
+            <h3 class="payment-title">Complete Your Enrollment</h3>
+            <div class="payment-details">
+                <div class="payment-row">
+                    <span>Course Fee:</span>
+                    <span>₹99</span>
+                </div>
+                <div class="payment-row">
+                    <span>Processing Fee:</span>
+                    <span>₹1</span>
+                </div>
+                <div class="payment-row total">
+                    <span>Total:</span>
+                    <span>₹100</span>
+                </div>
+            </div>
+            <button class="payment-btn" onclick="processPayment()">
+                💳 Pay ₹100 & Get Course Access
+            </button>
+        </div>
+
+        <div class="coupon-section hidden" id="couponSection">
+            <div class="success-icon">🎉</div>
+            <h3>Payment Successful!</h3>
+            <p>Your exclusive coupon code is ready:</p>
+
+            <div class="coupon-code">
+                <div class="coupon-text" id="couponCode">UPSKILL50</div>
+            </div>
+
+            <button class="copy-btn" onclick="copyCoupon()">
+                📋 Copy Coupon Code
+            </button>
+
+            <button class="redirect-btn" onclick="redirectToCourse()">
+                🎯 Apply Code on Udemy
+            </button>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <button class="close-btn" onclick="hideAuthModal()">&times;</button>
+
+            <div id="loginForm">
+                <h3 class="auth-title">Welcome Back!</h3>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-container">
+                            <input type="password" id="loginPassword" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('loginPassword')">👁</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-btn">Login</button>
+                </form>
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+                </div>
+            </div>
+
+            <div id="signupForm" class="hidden">
+                <h3 class="auth-title">Create Account</h3>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-container">
+                            <input type="password" id="signupPassword" required minlength="8"
+                                onkeyup="validatePassword()">
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('signupPassword')"></button>
+                        </div>
+                        <p class="password-warning" id="passwordWarning"></p>
+                    </div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+                </form>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" onclick="showLogin()">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-overlay" id="initialAdOverlay">
+        <div class="ad-container">
+            <button class="close-btn" onclick="closeInitialAd()">&times;</button>
+            <div class="ad-content">
+                <h3>👋 Welcome to Unlock UpSkill!</h3>
+                <p>Don't miss out on our limited-time offers. Your future starts now!</p>
+            </div>
+        </div>
+    </div>
+    <div class="ad-overlay" id="postPaymentAdOverlay">
+        <div class="ad-container">
+            <div class="ad-timer" id="postPaymentAdTimer">20</div>
+            <div class="ad-content">
+                <h3>🎯 Special Offer!</h3>
+                <p>Get access to 100+ premium courses with our annual subscription. Limited time offer!</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="success-popup" id="successPopup">
+        <div class="success-content" id="successPopupContent">
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION --- //
+        const API_BASE_URL = window.location.origin + '/api';
+
+        // --- DATA STORE --- //
+        let currentUser = {
+            name: '',
+            email: '',
+            token: '',
+            isLoggedIn: false
+        };
+
+        // Course data
+        const courseData = {
+            title: "Complete Web Development Bootcamp",
+            description: "Master HTML, CSS, JavaScript, React, Node.js, and MongoDB...",
+            couponCode: "UPSKILL50",
+            redirectUrl: "https://www.udemy.com/course/the-complete-web-development-bootcamp/"
+        };
+
+        // --- INITIALIZATION --- //
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('initialAdOverlay').style.display = 'flex';
+        });
+
+        // --- API HELPER FUNCTIONS --- //
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            const config = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            if (currentUser.token) {
+                config.headers['Authorization'] = `Bearer ${currentUser.token}`;
+            }
+
+            if (data) {
+                config.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'API request failed');
+                }
+
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // --- ADVERTISEMENT LOGIC --- //
+        function closeInitialAd() {
+            document.getElementById('initialAdOverlay').style.display = 'none';
+        }
+
+        function showPostPaymentAd() {
+            document.getElementById('postPaymentAdOverlay').style.display = 'flex';
+            let timeLeft = 20;
+            const timerEl = document.getElementById('postPaymentAdTimer');
+            timerEl.textContent = timeLeft;
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('postPaymentAdOverlay').style.display = 'none';
+                    showCouponSection();
+                }
+            }, 1000);
+        }
+
+        // --- AUTHENTICATION & USER FLOW --- //
+        function showAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+
+        function hideAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+        }
+
+        function showSignup() {
+            document.getElementById('signupForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            input.type = input.type === 'password' ? 'text' : 'password';
+            button.textContent = input.type === 'password' ? '👁' : '🙈';
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('signupPassword').value;
+            const warning = document.getElementById('passwordWarning');
+            warning.textContent = password.length < 8 ? 'Password must be at least 8 characters.' : '';
+        }
+
+        // --- LOGIN FUNCTION WITH API INTEGRATION --- //
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                showSuccessPopup('Logging in...', 'Please wait...', false);
+
+                const response = await apiCall('/auth/login', 'POST', { email, password });
+
+                currentUser = {
+                    ...response.data.user,
+                    token: response.data.token,
+                    isLoggedIn: true
+                };
+
+                hideAuthModal();
+                hideSuccessPopup();
+                showSuccessPopup('Login Successful!', 'Redirecting to payment...');
+
+                setTimeout(() => {
+                    hideSuccessPopup();
+                    showPaymentSection();
+                }, 2000);
+
+            } catch (error) {
+                hideSuccessPopup();
+                showSuccessPopup('Login Failed', error.message);
+            }
+        }
+
+        // --- SIGNUP FUNCTION WITH API INTEGRATION --- //
+        async function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            if (password.length < 8) {
+                validatePassword();
+                return;
+            }
+
+            try {
+                showSuccessPopup('Creating account...', 'Please wait...', false);
+
+                const response = await apiCall('/auth/signup', 'POST', { name, email, password });
+
+                currentUser = {
+                    ...response.data.user,
+                    token: response.data.token,
+                    isLoggedIn: true
+                };
+
+                hideAuthModal();
+                hideSuccessPopup();
+                showSuccessPopup('Signup Successful!', 'Redirecting to payment...');
+
+                setTimeout(() => {
+                    hideSuccessPopup();
+                    showPaymentSection();
+                }, 2000);
+
+            } catch (error) {
+                hideSuccessPopup();
+                showSuccessPopup('Signup Failed', error.message);
+
+                if (error.message.includes('already exists')) {
+                    setTimeout(() => {
+                        showLogin();
+                    }, 2500);
+                }
+            }
+        }
+
+        // --- PAYMENT & COUPON FLOW --- //
+        function showPaymentSection() {
+            document.getElementById('courseSection').classList.add('hidden');
+            document.getElementById('paymentSection').classList.remove('hidden');
+        }
+
+        function processPayment() {
+            // Simulate payment processing
+            showSuccessPopup('Processing Payment...', '', false);
+            setTimeout(() => {
+                hideSuccessPopup();
+                showPostPaymentAd();
+            }, 1500);
+        }
+
+        function showCouponSection() {
+            document.getElementById('paymentSection').classList.add('hidden');
+            document.getElementById('couponSection').classList.remove('hidden');
+        }
+
+        function copyCoupon() {
+            const couponCode = courseData.couponCode;
+            navigator.clipboard.writeText(couponCode).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                btn.style.background = '#32CD32';
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'linear-gradient(45deg, #87CEEB, #32CD32)';
+                }, 2000);
+            });
+        }
+
+        function redirectToCourse() {
+            navigator.clipboard.writeText(courseData.couponCode);
+            showSuccessPopup('Redirecting...', 'Applying your coupon code on Udemy.');
+            setTimeout(() => {
+                window.open(courseData.redirectUrl, '_blank');
+                hideSuccessPopup();
+            }, 2500);
+        }
+
+        // --- POPUP & UTILITY FUNCTIONS --- //
+        function showSuccessPopup(title, message, autoHide = true) {
+            const popupContent = document.getElementById('successPopupContent');
+            let icon = '⏳'; // Default icon
+
+            // Set icon based on the title content
+            if (title.includes('Successful')) {
+                icon = '✅';
+            } else if (title.includes('Failed')) {
+                icon = '❌';
+            } else if (title.includes('Redirecting')) {
+                icon = '🚀';
+            } else if (title.includes('Processing')) {
+                icon = '💳';
+            }
+
+            popupContent.innerHTML = `
+                <div class="success-icon">${icon}</div>
+                <h3>${title}</h3>
+                <p>${message}</p>
+            `;
+            document.getElementById('successPopup').style.display = 'flex';
+
+            if (autoHide) {
+                setTimeout(hideSuccessPopup, 2000);
+            }
+        }
+
+        function hideSuccessPopup() {
+            document.getElementById('successPopup').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
